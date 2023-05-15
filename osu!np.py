@@ -24,6 +24,7 @@ NICK = config['Twitch']['NICK']
 PASS = config['Twitch']['PASS']
 CHANNEL = config['Twitch']['CHANNEL']
 NP_COMMAND = config['Twitch']['NP_COMMAND']
+has_printed_running = False
 
 # Expresión regular para buscar el comando !np en los mensajes del chat
 NP_REGEX = re.compile(NP_COMMAND)
@@ -46,12 +47,12 @@ def handle_messages():
 
 def send_np_message():
     # Función para enviar el mensaje correspondiente al comando !np al chat de Twitch
-    message = f"!np: {artist} - {title} [{version}] by {mapper} https://osu.ppy.sh/s/{id_beatmap_set}"
+    message = f"/me is listening {artist} - {title} [{version}] by {mapper} https://osu.ppy.sh/s/{id_beatmap_set}"
     send_message(message)
 
 def on_message(ws, message):
     # La respuesta es un string JSON, así que necesitamos analizarlo
-    global artist, title, version, mapper, id_beatmap_set
+    global artist, title, version, mapper, id_beatmap_set, has_printed_running
     data = json.loads(message)
 
     # Accedemos al título de la canción utilizando la estructura especificada
@@ -60,6 +61,10 @@ def on_message(ws, message):
     version = data['menu']['bm']['metadata']['difficulty']
     mapper = data['menu']['bm']['metadata']['mapper']
     id_beatmap_set = data['menu']['bm']['set']
+    
+    if not has_printed_running:
+            print(f"Running: Test typing '{NP_COMMAND}' in your channel: https://www.twitch.tv/{NICK}")
+            has_printed_running = True
 
 def on_error(ws, error):
     print(error)
