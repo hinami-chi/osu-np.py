@@ -7,7 +7,8 @@
 # config.ini
 ```
 nick = your_nick | EX: hinamichi
-pass = your_oauth_password | EX: oauth:xxxxxxxx, obtainable [here](https://twitchapps.com/tmi/)
+pass = your_oauth_password | EX: oauth:xxxxxxxx
 channel = #your_channel | EX: #hinamichi 
 np_command = !np | default command
 ```
+# For get your Twitch Chat OAuth Password Generator, [here!](https://twitchapps.com/tmi/)
