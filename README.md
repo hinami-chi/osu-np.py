@@ -11,4 +11,4 @@ pass = your_oauth_password | EX: oauth:xxxxxxxx
 channel = #your_channel | EX: #hinamichi 
 np_command = !np | default command
 ```
-# For get your Twitch Chat OAuth Password Generator, [here!](https://twitchapps.com/tmi/)
+For get your Twitch Chat OAuth Password Generator, [here](https://twitchapps.com/tmi/)!
