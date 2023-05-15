@@ -8,7 +8,7 @@
 ```
 git clone https://github.com/hinami-chi/osu-np.py
 cd osu-np.py
-# execute this for dependencies -> pip install --upgrade websocket-client
+# execute this for dependencies -> pip install --upgrade websocket-client websocket configparser
 python osu-np.py
 ```
 
