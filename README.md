@@ -6,6 +6,9 @@
 
 # config.ini
 nick = your_nick | EX: hinamichi
+
 pass = your_oauth_password | EX: oauth:xxxxxxxx, obtainable [here](https://twitchapps.com/tmi/)
+
 channel = #your_channel | EX: #hinamichi 
+
 np_command = !np | default command
