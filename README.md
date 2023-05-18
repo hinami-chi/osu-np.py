@@ -1,6 +1,6 @@
 # osu!np.py
 
-# (WIP) In order to use this, you must run [gosumemory](https://github.com/l3lackShark/gosumemory).
+# (WIP) In order to use this, you must run [gosumemory](https://github.com/l3lackShark/gosumemory) or [osumemory-ts](https://github.com/KotRikD/osumemory-ts).
 
 ![](https://i.imgur.com/igHj6ZT.png)
 
