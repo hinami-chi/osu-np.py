@@ -25,7 +25,6 @@ PASS = config['Twitch']['PASS']
 CHANNEL = config['Twitch']['CHANNEL']
 NP_COMMAND = config['Twitch']['NP_COMMAND']
 has_printed_running = False
-
 # Expresión regular para buscar el comando !np en los mensajes del chat
 NP_REGEX = re.compile(NP_COMMAND)
 
@@ -47,12 +46,25 @@ def handle_messages():
 
 def send_np_message():
     # Función para enviar el mensaje correspondiente al comando !np al chat de Twitch
-    message = f"/me is listening {artist} - {title} [{version}] by {mapper} https://osu.ppy.sh/s/{id_beatmap_set}"
+    if state == 1:
+        state_str = "editing"
+        message = f'/me is {state_str} {artist} - {title} [{version}] mapped by {mapper} | https://osu.ppy.sh/s/{id_beatmap_set} | MIRRORS: https://beatconnect.io/b/{id_beatmap_set} | https://chimu.moe/d/{id_beatmap_set}'
+    elif state == 2:
+        state_str = "playing"
+        if bpmmin == bpmmax:
+            message = f'/me is {state_str} {artist} - {title} [{version}] +{mods} {bpmmax}BPM ★{sr} mapped by {mapper} | https://osu.ppy.sh/s/{id_beatmap_set} | MIRRORS: https://beatconnect.io/b/{id_beatmap_set} | https://chimu.moe/d/{id_beatmap_set}'
+        else:
+            message = f'/me is {state_str} {artist} - {title} [{version}] +{mods} BPM: {bpmmin}-{bpmmax} ★{sr} mapped by {mapper} | https://osu.ppy.sh/s/{id_beatmap_set} | MIRRORS: https://beatconnect.io/b/{id_beatmap_set} | https://chimu.moe/d/{id_beatmap_set}'
+    else:
+        state_str = "listening"
+        message = f'/me is {state_str} {artist} - {title} | https://osu.ppy.sh/s/{id_beatmap_set} | MIRRORS: https://beatconnect.io/b/{id_beatmap_set} | https://chimu.moe/d/{id_beatmap_set}'
+
+    # For others states, here -> https://github.com/Piotrekol/ProcessMemoryDataFinder/blob/99e2014447f6d5e5ba3943076bc8210b6498db5c/OsuMemoryDataProvider/OsuMemoryStatus.cs#L3
     send_message(message)
 
 def on_message(ws, message):
     # La respuesta es un string JSON, así que necesitamos analizarlo
-    global artist, title, version, mapper, id_beatmap_set, has_printed_running
+    global artist, title, version, mapper, id_beatmap_set, state, mods, sr, bpmmin, bpmmax, has_printed_running
     data = json.loads(message)
 
     # Accedemos al título de la canción utilizando la estructura especificada
@@ -61,10 +73,15 @@ def on_message(ws, message):
     version = data['menu']['bm']['metadata']['difficulty']
     mapper = data['menu']['bm']['metadata']['mapper']
     id_beatmap_set = data['menu']['bm']['set']
-    
+    state = data['menu']['state']
+    mods = data['menu']['mods']['str']
+    sr = round(data['menu']['bm']['stats']['fullSR'], 2)
+    bpmmin = int(data['menu']['bm']['stats']['BPM']['max'])
+    bpmmax = int(data['menu']['bm']['stats']['BPM']['max'])
+
     if not has_printed_running:
-            print(f"Running: Test typing '{NP_COMMAND}' in your channel: https://www.twitch.tv/{NICK}")
-            has_printed_running = True
+        print(f"Running: Test typing '{NP_COMMAND}' in your channel: https://www.twitch.tv/{NICK}")
+        has_printed_running = True
 
 def on_error(ws, error):
     print(error)
@@ -82,6 +99,7 @@ def on_open(ws):
     t.start()
 
 if __name__ == "__main__":
+    
     # Creamos el socket de conexión al servidor de IRC de Twitch
     s = socket.socket()
     s.connect((HOST, PORT))
