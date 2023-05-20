@@ -116,11 +116,4 @@ if __name__ == "__main__":
                                 on_close=on_close)
 
     ws.on_open = on_open
-
-    # Iniciamos el bucle de eventos de websocket
-    ws.run_forever()
-    
-    ws.on_open = on_open
-
-    # Iniciamos el bucle de eventos de websocket
     ws.run_forever()
