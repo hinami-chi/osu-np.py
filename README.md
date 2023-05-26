@@ -4,11 +4,13 @@
 
 ![](https://i.imgur.com/igHj6ZT.png)
 
-# Installation
+# Installation for linux
 ```
 git clone https://github.com/hinami-chi/osu-np.py
 cd osu-np.py
-# execute this for dependencies -> pip install --upgrade websocket-client websocket configparser
+python -m venv myenv
+source myenv/bin/activate
+pip install -r requirements.txt
 python osu-np.py
 ```
 
